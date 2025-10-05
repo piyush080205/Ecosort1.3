@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1a1a1a">
+    <title>EcoSort AI - Smart AI-based Waste Segregation System</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <ul>
+                <li><a href="#home" aria-label="Go to Home section"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#how-it-works" aria-label="Learn how it works"><i class="fas fa-cogs"></i> How It Works</a></li>
+                <li><a href="#gallery" aria-label="View waste categories gallery"><i class="fas fa-images"></i> Gallery</a></li>
+                <li><a href="#about" aria-label="About EcoSort AI"><i class="fas fa-info-circle"></i> About</a></li>
+            </ul>
+            <button id="theme-toggle" class="theme-toggle" title="Toggle Theme" aria-label="Toggle between light and dark theme">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+    <header id="home">
+        <div class="header-content">
+            <img src="output.svg" alt="EcoSort AI Logo" id="logo" style="display: block; margin: 0 auto; width: 400px; height: auto;">
+        </div>
+    </header>
+
+    <main>
+        <section id="input-section">
+            <h2>Select an Image</h2>
+            <button id="demo-btn" aria-label="Run demo with sample images">Demo Mode</button>
+            <div class="input-options">
+                <button id="webcam-btn" aria-label="Open webcam to capture image"><i class="fas fa-camera"></i> Capture with Webcam</button>
+                <label for="upload-input" class="upload-label" aria-label="Upload image from device"><i class="fas fa-upload"></i> Upload from Device</label>
+                <input type="file" id="upload-input" accept="image/*" style="display: none;">
+            </div>
+            <div id="image-preview" style="display: none;">
+                <h3>Image Preview</h3>
+                <img id="preview-img" alt="Selected image for processing" style="max-width: 100%; height: auto; border-radius: 10px;">
+            </div>
+            <div id="camera-container" style="display: none;">
+                <video id="video" autoplay aria-label="Live webcam feed"></video>
+                <button id="capture-btn" aria-label="Capture current frame from webcam"><i class="fas fa-camera"></i> Capture</button>
+            </div>
+            <canvas id="canvas" style="display: none;"></canvas>
+            <button id="submit-btn" disabled aria-label="Process the selected image"><i class="fas fa-brain"></i> Process Image</button>
+        </section>
+
+        <section id="loading-section" style="display: none;">
+            <div class="spinner"></div>
+            <p>Processing your image...</p>
+        </section>
+
+        <section id="result-section" style="display: none;">
+            <div class="result-card">
+                <h3>Prediction Result</h3>
+                <p id="category">Category: <span id="category-name"></span></p>
+                <p id="confidence">Confidence: <span id="confidence-value"></span>%</p>
+                <p id="disposal-instruction"></p>
+                <button id="download-result" aria-label="Download result as text file">Download Result</button>
+            </div>
+        </section>
+
+        <section id="how-it-works">
+            <h2>How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <i class="fas fa-camera fa-3x"></i>
+                    <h3>Capture or Upload</h3>
+                    <p>Take a photo with your webcam or upload an image from your device.</p>
+                </div>
+                <div class="step">
+                    <i class="fas fa-brain fa-3x"></i>
+                    <h3>AI Analysis</h3>
+                    <p>Our advanced AI processes the image to identify the waste category.</p>
+                </div>
+                <div class="step">
+                    <i class="fas fa-recycle fa-3x"></i>
+                    <h3>Get Results</h3>
+                    <p>Receive instant classification with confidence levels for proper disposal.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery">
+            <h2>Example Waste Categories</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item" data-category="Plastic">
+                    <img src="https://images.unsplash.com/photo-1537084642907-629340c7e59c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Pile of plastic waste for recycling" loading="lazy">
+                    <p>Plastic</p>
+                </div>
+                <div class="gallery-item" data-category="Metal">
+                    <img src="https://images.unsplash.com/photo-1561503412-852800622772?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Scrap metal waste for recycling" loading="lazy">
+                    <p>Metal</p>
+                </div>
+                <div class="gallery-item" data-category="Organic">
+                    <img src="https://images.unsplash.com/photo-1644575881028-9f170fd241ed?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Organic food waste for composting" loading="lazy">
+                    <p>Organic</p>
+                </div>
+                <div class="gallery-item" data-category="Paper">
+                    <img src="https://images.unsplash.com/photo-1585351737354-204ffbbe584f?q=80&w=1172&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Paper waste including cardboard for recycling" loading="lazy">
+                    <p>Paper</p>
+                </div>
+                <div class="gallery-item" data-category="Glass">
+                    <img src="https://images.unsplash.com/photo-1614480858386-d2c746e2c8e3?q=80&w=1180&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Broken glass bottles for recycling" loading="lazy">
+                    <p>Glass</p>
+                </div>
+                <div class="gallery-item" data-category="Other">
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Miscellaneous waste items" loading="lazy">
+                    <p>Other</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="analytics">
+            <h2>Waste Category Analytics</h2>
+            <canvas id="analytics-chart" width="400" height="400"></canvas>
+        </section>
+
+        <section id="about">
+            <h2>About EcoSort AI</h2>
+            <p>EcoSort AI is an innovative AI-powered waste segregation system designed to help individuals and communities identify and sort waste materials accurately. By leveraging advanced machine learning algorithms, our platform analyzes images of waste to classify them into categories such as Plastic, Metal, Organic, Paper, Glass, and more.</p>
+            <p>Our mission is to promote environmental sustainability by encouraging proper waste disposal and recycling practices. Whether you're at home, school, or work, EcoSort AI makes it easy to contribute to a greener planet.</p>
+            <p>Developed for hackathon purposes, this application demonstrates the potential of AI in environmental technology.</p>
+        </section>
+
+        <section id="history-section">
+            <h2>Recent History</h2>
+            <button id="clear-history" aria-label="Clear all history">Clear History</button>
+            <div id="history-list"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p><i class="fas fa-code"></i> Developed By Vision X – EcoSort AI <i class="fas fa-leaf"></i></p>
+    </footer>
+
+    <!-- Modal for gallery tips -->
+    <div id="gallery-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-title"></h2>
+            <p id="modal-tip"></p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
