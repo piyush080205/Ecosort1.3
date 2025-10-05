@@ -1,10 +1,15 @@
+# --- Build Tools (must come first) ---
 setuptools>=68.0.0
 wheel>=0.41.0
 build
-pip==24.3.1
+
+# --- Core Packages ---
+pip>=24.3.1
 Flask==2.3.3
-flask-cors==4.0.0
+Flask-Cors==4.0.0
+Flask-SQLAlchemy==3.0.5
+
+# --- Machine Learning / Image ---
 tensorflow==2.13.0
 numpy==1.26.4
 Pillow==10.0.0
-Flask-SQLAlchemy==3.0.5
