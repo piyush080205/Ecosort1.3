@@ -1,7 +1,8 @@
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
-from predict import predict_waste_from_base64
-from models import db, Prediction
+import base64
+from VisionX.predict import predict_waste_from_base64
+from VisionX.models import db, Prediction
 import os
 
 app = Flask(__name__)
@@ -17,7 +18,7 @@ with app.app_context():
     db.create_all()
 
 # Path to frontend directory
-FRONTEND_DIR = os.path.join(os.path.dirname(__file__), '..', 'EcoSort1.2-main')
+FRONTEND_DIR = os.path.join(os.path.dirname(__file__), 'EcoSort1.2-main')
 
 @app.route('/', defaults={'path': 'index.html'})
 @app.route('/<path:path>')
@@ -87,13 +88,13 @@ def clear_history():
 
 @app.route('/dataset/<category>/<filename>')
 def serve_dataset_image(category, filename):
-    dataset_path = os.path.join(os.path.dirname(__file__), 'dataset')
+    dataset_path = os.path.join(os.path.dirname(__file__), 'VisionX', 'dataset')
     return send_from_directory(dataset_path, f'{category}/{filename}')
 
 @app.route('/demo-images/<category>')
 def get_demo_images(category):
     """Get list of images for a category in dataset"""
-    dataset_path = os.path.join(os.path.dirname(__file__), 'dataset', category)
+    dataset_path = os.path.join(os.path.dirname(__file__), 'VisionX', 'dataset', category)
     if not os.path.exists(dataset_path):
         return jsonify({'images': []})
     
@@ -109,4 +110,5 @@ def health():
     return jsonify({'status': 'ok'})
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(debug=False, host='0.0.0.0', port=port)
